@@ -1,5 +1,6 @@
 import { Box, Center, Grid, Table, Text } from "@chakra-ui/react";
 import { useResponses } from "../contexts/ResponsesContext";
+import SimpleChart from "./SimpleChart";
 
 const VisualizationSection = () => {
   const { responses } = useResponses(); // TODO memoize responses for large data
@@ -9,7 +10,9 @@ const VisualizationSection = () => {
       <Text fontSize={"2xl"} as={"h1"} textAlign={"center"}>
         Data Visualization Section
       </Text>
-      <Center borderBottom={"1px solid lightgray"}>Chart Section</Center>
+      <Center borderBottom={"1px solid lightgray"}>
+        <SimpleChart data={responses} />
+      </Center>
       <Box p={5}>
         {/*from chakra docs */}
         <Table.ScrollArea>
