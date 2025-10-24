@@ -1,47 +1,36 @@
 import { Provider } from "./components/ui/provider";
 import { Button, HStack, Presence, VStack } from "@chakra-ui/react";
 import { ColorModeButton } from "./components/ui/color-mode";
-import { useState } from "react";
 import UploadSection from "./components/UploadSection";
 import VisualizationSection from "./components/VisualizationSection";
-import { ResponsesContextProvder } from "./contexts/ResponsesContext";
+import { useResponses } from "./contexts/ResponsesContext";
 
 function App() {
-  const [page, setPage] = useState<"upload" | "visualization">("upload");
-
+  const { page, setPage, setResponses } = useResponses(); // TODO: move page to its own context
   return (
-    <ResponsesContextProvder>
-      <Provider>
-        <VStack py={10} gap={4} h={"full"}>
-          <Presence present={page === "upload"} w={"full"} h={"full"}>
-            <UploadSection />
-          </Presence>
-          <Presence present={page === "visualization"} w={"full"} h={"full"}>
-            <VisualizationSection />
-          </Presence>
-          <HStack gap={2} pos={"absolute"} top={2} left={2}>
-            <Button
-              onClick={() => {
-                setPage("upload");
-              }}
-              size={"xs"}
-            >
-              Upload
-            </Button>
-            <Button
-              onClick={() => {
-                setPage("visualization");
-              }}
-              size={"xs"}
-            >
-              Visualization
-            </Button>
-          </HStack>
+    <Provider>
+      <VStack py={10} gap={4} h={"full"}>
+        <Presence present={page === "upload"} w={"full"} h={"full"}>
+          <UploadSection />
+        </Presence>
+        <Presence present={page === "visualization"} w={"full"} h={"full"}>
+          <VisualizationSection />
+        </Presence>
+        <HStack gap={2} pos={"absolute"} top={2} left={2}>
+          <Button
+            onClick={() => {
+              setPage("upload");
+              setResponses([]);
+            }}
+            size={"xs"}
+          >
+            Reset
+          </Button>
+        </HStack>
 
-          <ColorModeButton pos={"absolute"} top={4} right={4} />
-        </VStack>
-      </Provider>
-    </ResponsesContextProvder>
+        <ColorModeButton pos={"absolute"} top={4} right={4} />
+      </VStack>
+    </Provider>
   );
 }
 

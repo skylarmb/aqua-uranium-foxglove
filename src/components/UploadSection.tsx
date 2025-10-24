@@ -6,7 +6,7 @@ import type { LLMResponse } from "../types";
 
 const UploadSection = () => {
   const [files, setFiles] = useState<File[]>([]);
-  const { setResponses } = useResponses();
+  const { setResponses, setPage } = useResponses();
 
   useEffect(() => {
     files.forEach((file) => {
@@ -27,6 +27,7 @@ const UploadSection = () => {
             throw new Error("Malformed JSON file");
           }
           setResponses(jsonContent.responses as LLMResponse[]);
+          setPage("visualization");
         } catch (e) {
           throw new Error("Invalid file, could not parse as JSON", e as Error);
         }
@@ -43,7 +44,7 @@ const UploadSection = () => {
       id={"data-upload-section"}
       px={10}
     >
-      <Text fontSize={"2xl"} as={"h1"}>
+      <Text fontSize={"2xl"} as={"h1"} textAlign={"center"} w={"full"}>
         Data Upload Section
       </Text>
       <FileUpload.Root
