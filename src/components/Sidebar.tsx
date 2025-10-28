@@ -1,9 +1,44 @@
-import { VStack, HStack, Button, List } from "@chakra-ui/react";
+import {
+  VStack,
+  HStack,
+  Button,
+  List,
+  IconButton,
+  Input,
+} from "@chakra-ui/react";
 import { useResponses } from "../contexts/ResponsesContext";
+import { useCallback, useEffect, useState } from "react";
+import { LuPencil, LuSave } from "react-icons/lu";
 
 const Sidebar = () => {
-  const { dataSets, setPage, setCurrentDataSetId, currentDataSetId } =
+  const { dataSets, setDataSets, setPage, setCurrentDataSetId } =
     useResponses();
+
+  const [activeRenameId, setActiveRenameId] = useState<string | null>(null);
+  const [activeRenameValue, setActiveRenameValue] = useState<string>("");
+
+  useEffect(() => {
+    if (activeRenameId == null) {
+      setActiveRenameValue("");
+    }
+  }, [activeRenameId]);
+
+  const handleRename = useCallback(
+    (dataSetId: string, newName: string) => {
+      // TODO
+      console.log(dataSetId, newName);
+      const others = dataSets.filter((ds) => ds.id !== dataSetId);
+      const current = dataSets.find((ds) => ds.id === dataSetId);
+      if (current == null) {
+        console.log(dataSetId);
+        throw new Error("current dataSet is undefined");
+      }
+      setDataSets([...others, { ...current, name: newName }]);
+      setActiveRenameId(null);
+      setActiveRenameValue(null);
+    },
+    [dataSets],
+  );
 
   return (
     <VStack borderRight={"1px solid #eee"}>
@@ -11,7 +46,7 @@ const Sidebar = () => {
         {dataSets.length === 0 ? "No data sets" : null}
         {dataSets.map((dataSet) => {
           return (
-            <List.Item key={dataSet.id}>
+            <List.Item key={dataSet.id} display={"flex"} alignItems={"center"}>
               <Button
                 variant={"plain"}
                 _hover={{ textDecoration: "underline" }}
@@ -22,6 +57,41 @@ const Sidebar = () => {
               >
                 {dataSet.name}
               </Button>
+              <IconButton
+                aria-label="Rename"
+                variant={"surface"}
+                size={"xs"}
+                h={5}
+                w={5}
+                minW={5}
+                onClick={() => {
+                  setActiveRenameValue(dataSet.name);
+                  setActiveRenameId(dataSet.id);
+                }}
+              >
+                <LuPencil />
+              </IconButton>
+              {activeRenameId === dataSet.id && (
+                <>
+                  <Input
+                    value={activeRenameValue}
+                    onChange={(e) => setActiveRenameValue(e.target.value)}
+                  />
+                  <IconButton
+                    aria-label="Save"
+                    variant={"surface"}
+                    size={"xs"}
+                    h={5}
+                    w={5}
+                    minW={5}
+                    onClick={() => {
+                      handleRename(activeRenameId, activeRenameValue);
+                    }}
+                  >
+                    <LuSave />
+                  </IconButton>
+                </>
+              )}
             </List.Item>
           );
         })}
