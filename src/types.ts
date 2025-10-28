@@ -23,3 +23,10 @@ export interface LLMResponse {
     message: string;
   }; // Assumption here, TODO to test
 }
+
+export interface DataSet {
+  id: string;
+  name: string;
+  responses: LLMResponse[];
+  createdAt: number;
+}

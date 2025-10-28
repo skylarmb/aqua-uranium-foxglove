@@ -1,4 +1,4 @@
-import { Box, Center, Grid, Table, Text } from "@chakra-ui/react";
+import { Box, Grid, Table, Text } from "@chakra-ui/react";
 import { useResponses } from "../contexts/ResponsesContext";
 import SimpleChart from "./SimpleChart";
 import type { LLMResponse } from "../types";
