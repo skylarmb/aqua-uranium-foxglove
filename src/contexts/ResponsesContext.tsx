@@ -18,6 +18,8 @@ export interface ResponsesContextType {
   setDataSets: Dispatch<SetStateAction<DataSet[]>>;
   currentDataSetId: string | null;
   setCurrentDataSetId: Dispatch<SetStateAction<string | null>>;
+  isDeleteModalOpen: boolean;
+  setIsDeleteModalOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 const AppContext = createContext<ResponsesContextType | undefined>(undefined);
@@ -27,6 +29,7 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
   const [dataSets, setDataSets] = useState<DataSet[]>([]);
   const [responses, setResponses] = useState<LLMResponse[]>([]); // TODO: unknown
   const [page, setPage] = useState<"upload" | "visualization">("upload");
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
 
   return (
     <AppContext.Provider
@@ -39,6 +42,8 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
         setDataSets,
         currentDataSetId,
         setCurrentDataSetId,
+        isDeleteModalOpen,
+        setIsDeleteModalOpen,
       }}
     >
       {children}

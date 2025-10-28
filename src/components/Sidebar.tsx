@@ -8,12 +8,14 @@ import {
 } from "@chakra-ui/react";
 import { useResponses } from "../contexts/ResponsesContext";
 import { useCallback, useEffect, useState } from "react";
-import { LuPencil, LuSave } from "react-icons/lu";
+import { LuPencil, LuSave, LuTrash } from "react-icons/lu";
+import DeleteModal from "./DeleteModal";
 
 const Sidebar = () => {
   const { dataSets, setDataSets, setPage, setCurrentDataSetId } =
     useResponses();
 
+  const [activeDeleteId, setActiveDeleteId] = useState<string | null>(null);
   const [activeRenameId, setActiveRenameId] = useState<string | null>(null);
   const [activeRenameValue, setActiveRenameValue] = useState<string>("");
 
@@ -35,10 +37,16 @@ const Sidebar = () => {
       }
       setDataSets([...others, { ...current, name: newName }]);
       setActiveRenameId(null);
-      setActiveRenameValue(null);
+      setActiveRenameValue("");
     },
     [dataSets],
   );
+
+  const handleDelete = useCallback((dataSetId: string) => {
+    const others = dataSets.filter((ds) => ds.id !== dataSetId);
+    setDataSets([...others]);
+    setActiveDeleteId(null);
+  }, []);
 
   return (
     <VStack borderRight={"1px solid #eee"}>
@@ -92,6 +100,29 @@ const Sidebar = () => {
                   </IconButton>
                 </>
               )}
+              <DeleteModal
+                isOpen={activeDeleteId != null}
+                onConfirmDelete={() => {
+                  handleDelete(dataSet.id);
+                }}
+                onCancel={() => {
+                  setActiveDeleteId(null);
+                }}
+              >
+                <IconButton
+                  aria-label="Delete"
+                  variant={"surface"}
+                  size={"xs"}
+                  h={5}
+                  w={5}
+                  minW={5}
+                  onClick={() => {
+                    setActiveDeleteId(dataSet.id);
+                  }}
+                >
+                  <LuTrash />
+                </IconButton>
+              </DeleteModal>
             </List.Item>
           );
         })}

@@ -1,5 +1,5 @@
 import { Provider } from "./components/ui/provider";
-import { Button, Grid, HStack, List, Presence, VStack } from "@chakra-ui/react";
+import { Grid, Presence, VStack } from "@chakra-ui/react";
 import { ColorModeButton } from "./components/ui/color-mode";
 import UploadSection from "./components/UploadSection";
 import VisualizationSection from "./components/VisualizationSection";
@@ -7,7 +7,7 @@ import { useResponses } from "./contexts/ResponsesContext";
 import Sidebar from "./components/Sidebar";
 
 function App() {
-  const { page, setPage, dataSets } = useResponses(); // TODO: move page to its own context
+  const { page } = useResponses(); // TODO: move page to its own context
   return (
     <Provider>
       <Grid templateColumns={"300px 1fr"}>
