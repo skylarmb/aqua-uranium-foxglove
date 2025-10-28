@@ -30,7 +30,16 @@ export const AppContextProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AppContext.Provider
-      value={{ responses, setResponses, page, setPage, dataSets, setDataSets }}
+      value={{
+        responses,
+        setResponses,
+        page,
+        setPage,
+        dataSets,
+        setDataSets,
+        currentDataSetId,
+        setCurrentDataSetId,
+      }}
     >
       {children}
     </AppContext.Provider>

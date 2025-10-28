@@ -16,7 +16,7 @@ import type { DataSet, LLMResponse } from "../types";
 const UploadSection = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [dataName, setDataName] = useState("");
-  const { setDataSets, setPage } = useResponses();
+  const { setDataSets, setPage, setCurrentDataSetId } = useResponses();
 
   const handleSubmit = useCallback(
     (name: string) => {
@@ -45,6 +45,7 @@ const UploadSection = () => {
             };
             setDataSets((prev) => [...prev, dataSet]);
             setFiles([]);
+            setCurrentDataSetId(dataSet.id);
             setPage("visualization");
           } catch (e) {
             throw new Error(
