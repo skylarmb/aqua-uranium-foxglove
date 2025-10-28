@@ -1,5 +1,7 @@
 # Setup Instructions
 
+Requirements: either `bun` installed on your machine, or `nix` and `direnv` (recommended).
+
 ```bash
 bun install
 bun run dev
