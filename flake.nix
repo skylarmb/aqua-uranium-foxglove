@@ -16,6 +16,7 @@
           buildInputs = with pkgs; [
             git
             bun
+            asciinema_3
           ];
 
           shellHook = ''
